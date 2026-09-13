@@ -6,10 +6,13 @@
 ## Source of Truth（正とすべき情報源）
 - プロジェクトの目的と制約：PROJECT_CHARTER.md
 - 現状分析結果：CURRENT_ANALYSIS.md（分析依頼：CURRENT_ANALYSIS_REQUEST.md）
-- 制作・機能要件：REQUIREMENTS.md
-- 作業計画・タスク管理：WBS.md
-- 計測指標・KPI：KPI_TRACKING.md
 - 意思決定ログ：DECISIONS.md
+- 発信軸・価値観・トーン＆マナー：BEAUTY_VALUES_AND_VOICE.md
+- 提案・面談アジェンダ：TEACHER_CONSULTATION.md
+※以下のファイルはプロジェクトの進行に応じて順次作成予定：
+  - 制作・機能要件：REQUIREMENTS.md（未作成）
+  - 作業計画・タスク管理：WBS.md（未作成）
+  - 計測指標・KPI：KPI_TRACKING.md（未作成）
 ※各ファイル間で情報が一致しない場合は、勝手に補完・推測せず、必ず人間に質問すること。
 
 ## Rules（Claude Codeが厳守する作業ルール）
