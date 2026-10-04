@@ -14,15 +14,17 @@
 
 ## 意思決定履歴
 
-### YYYY-MM-DD: 【記録タイトル例：指導教員相談結果】
-- **決定ステータス**: [承認 / 条件付き承認 / 差し戻し]
-- **決定者**: 指導教員 / リオックマ (Veronica)
-- **関連ドキュメント**: [TEACHER_CONSULTATION.md](file:///c:/Users/User/Desktop/veronica-growth-project/TEACHER_CONSULTATION.md)
+### 2026-10-04: 【履歴書投稿の成果確認と数値記録ルールの緩和】
+- **決定ステータス**: [承認]
+- **決定者**: リオックマ (Veronica) / ヴェロくま
+- **関連ドキュメント**: [KPI_TRACKING.md](file:///c:/Users/User/Desktop/veronica-growth-project/KPI_TRACKING.md), [CURRENT_ANALYSIS.md](file:///c:/Users/User/Desktop/veronica-growth-project/CURRENT_ANALYSIS.md)
 - **決定内容・ポイント**:
-  1. 
-  2. 
+  1. **固定ポスト（履歴書投稿）の導入成果**: 固定ポスト変更後、フォロワー数が514人から541人（+27人増）へと大幅増加したことを確認・記録。
+  2. **数値記録ルールの緩和**: 「投稿直前」「24時間後」「7日後」等の厳格な時間管理を廃止。投稿時フォロワー数の簡易共有と週末・思い出し時のざっくり記録方針に緩和。実作業はヴェロくまがサポート。
 - **次回アクション・対応策**:
-  - 
+  - `KPI_TRACKING.md` でフォロワー数およびX・LIPSの反応数を継続的に記録。
+  - 次回の「使い切り投稿」等のコンテンツ作成に向けて手持ちアイテムを確認。
 
 ---
 ※プロジェクトの進行に伴い、決定事項を随時追加・更新します。
+
