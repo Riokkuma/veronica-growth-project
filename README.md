@@ -5,10 +5,12 @@
 ---
 
 ## 1. プロジェクトの目的と概要
-- **対象アカウント**: Veronica ヴェロニカ（[@Veronica_kuma](https://x.com/Veronica_kuma)）
+- **対象アカウント**: Veronica ヴェロニカ（[@Veronica_kuma](https://x.com/Veronica_kuma) / [LIPS: @veronica_kuma](https://lipscosme.com/users/n/@veronica_kuma)）
 - **ゴール**: 半年間でフォロワー1,000人達成 ＆ 学業と両立できる自走型運用体制の確立
-- **現状ベースライン**: フォロワー515人 / フォロー1,132人（2026年9月時点）
-- **プロジェクトオーナー**: リオックマ（Veronica）
+- **ベースライン（2026年9月開始時）**: X 514人 / LIPS 412人
+- **最新状況（2026年10月5日時点）**: **X 545人（+31人） / LIPS 420人（+8人）**
+- **プロジェクトオーナー / PM**: 加藤 吏恩（リオックマ）
+- **担当AI**: ヴェロくま
 
 ---
 
@@ -17,47 +19,47 @@
 ```text
 veronica-growth-project/
 ├── README.md                     # 本ファイル（プロジェクト全体の総合案内）
-├── CLAUDE.md                     # Claude Codeが守るべき行動規範・作業ルール
+├── CLAUDE.md                     # AIが守るべき行動規範・作業ルール
 ├── PROJECT_CHARTER.md            # プロジェクト憲章（目的、ゴール、スコープ、体制）
-├── CURRENT_ANALYSIS_REQUEST.md   # 現状分析の依頼指示書（Claude Codeへのタスク定義）
-├── CURRENT_ANALYSIS.md           # [今後出力] 現状分析レポート
-├── REQUIREMENTS.md               # [今後作成] 運用支援ツールの要件定義
-├── WBS.md                        # [今後作成] 作業計画・スケジュール
-├── CONTENT_PLAN.md               # [今後作成] コンテンツ運用設計・投稿テンプレート
-├── KPI_TRACKING.md               # [今後作成] 指標計測・進捗管理シート
-├── RISKS.md                      # [今後作成] リスク管理表
-├── DECISIONS.md                  # [今後作成] PM意思決定ログ
-└── data/
-    └── x_metrics.csv             # 過去の投稿実績データ（23件）
+├── BEAUTY_VALUES_AND_VOICE.md    # 美容の価値観・発信トーン＆マナー・本人執筆原則
+├── TEACHER_CONSULTATION.md       # 指導教員相談シート・演習テーマ定義
+├── CURRENT_ANALYSIS_REQUEST.md   # 現状分析の依頼指示書（完了・受入済）
+├── CURRENT_ANALYSIS.md           # 現状分析レポート（過去投稿23件の分析・成長仮説）
+├── LIPS_ANALYSIS_REQUEST.md      # LIPSアカウント現状分析の依頼指示書
+├── WEEKLY_BEAUTY_RESEARCH.md     # 週次美容トレンド調査 依頼仕様書
+├── KPI_TRACKING.md               # KPI・投稿実績トラッキング（X/LIPS数値・ヒット事例分析）
+├── DECISIONS.md                  # PM意思決定ログ（意思決定履歴の記録）
+├── data/
+│   └── x_metrics.csv             # 過去の投稿実績データ（23件）
+└── reports/                      # 調査レポートおよび活動記録
+    ├── 2026-10-05.md             # プロジェクト活動レポート（2026-10-05）
+    └── weekly-beauty/            # 週次美容トレンド調査レポート蓄積
 ```
 
 ---
 
 ## 3. 現在地と今後のロードマップ
 
-現在、**フェーズ1（現状分析フェーズ）**の準備が整った段階です。
+現在、**フェーズ2（施策実行・運用サイクルの確立）**が進行中です。
 
 | フェーズ | 内容 | 状態 | 主な成果物 |
 | :--- | :--- | :--- | :--- |
-| **Phase 1** | **前提整理と現状分析** | **進行中（依頼準備完了）** | `CLAUDE.md`, `PROJECT_CHARTER.md`, `x_metrics.csv`, `CURRENT_ANALYSIS_REQUEST.md` |
-| **Phase 2** | **分析結果の確認と施策立案** | 未着手 | `CURRENT_ANALYSIS.md` の確認、成長仮説の採択 |
-| **Phase 3** | **要件定義と計画策定** | 未着手 | `REQUIREMENTS.md`, `WBS.md`, `CONTENT_PLAN.md` |
-| **Phase 4** | **運用支援ツールの実装・運用開始** | 未着手 | 下書き支援・KPI管理ツールの開発、週2回投稿運用 |
+| **Phase 1** | **前提整理と現状分析** | **完了（受入済）** | `CURRENT_ANALYSIS.md`, `x_metrics.csv`（分析受入完了） |
+| **Phase 2** | **施策実行・運用サイクルの確立** | **進行中** | 固定ポスト（履歴書）施策、週1回メイク投稿、`KPI_TRACKING.md`, `DECISIONS.md`, `LIPS_ANALYSIS_REQUEST.md` |
+| **Phase 3** | **検証とツール・テンプレート整備** | 次期着手 | 投稿テンプレート型化、下書き支援・管理ツールの要件定義・実装 |
+| **Phase 4** | **自走型運用の定着・成果検証** | 未着手 | フォロワー1,000人達成、PMポートフォリオ（改善履歴まとめ）の完成 |
 
 ---
 
-## 4. 指導教員・Claude Codeへの依頼手順
+## 4. プロジェクト体制と運用ルーティン
 
-先生にプロジェクトフォルダを共有し、Claude Codeへ以下のように依頼していただくことを想定しています。
+### 体制と役割分担
+- **加藤 吏恩（リオックマ）**: PM、アカウント所有者、最終意思決定者（発注、品質判断、採用・差し戻し、実体験レビュー執筆）
+- **先生（指導教員）**: エンジニア役（依頼に基づくデータ集計・分析レポート作成等の技術支援）
+- **ヴェロくま（担当AI）**: 作業補助（Markdown整理、データ記録、ナレッジ体系化、下書き支援）
 
-### 依頼コマンド例（Claude Code向け）
-```bash
-# プロジェクトフォルダを開いた状態で
-claude "CURRENT_ANALYSIS_REQUEST.md の指示に従って、data/x_metrics.csv などのデータを詳細に分析し、結果を CURRENT_ANALYSIS.md に出力してください。"
-```
+### 週間運用ルーティン
+1. **投稿アクション**: 日曜日までに、メイクをした日に「今日のメイク」をXへ投稿する（週1回）。
+2. **数値トラッキング**: 週末（日曜日）にX・LIPSの反応（表示数、いいね、RT、保存数等）を確認し、`KPI_TRACKING.md` へ記録・更新する。
+3. **意思決定・ナレッジ化**: 重要な方針変更や成功要因の分析を `DECISIONS.md` や `KPI_TRACKING.md` に蓄積する。
 
-### 先生への伝達メッセージ例
-> 美容アカウントの半年間の運用改善プロジェクトを進めています。
-> いきなり制作やツール開発に入るのではなく、PMとしてまずは実績データの現状分析から行いたいと考えています。
-> プロジェクトの目的やルール（CLAUDE.md、PROJECT_CHARTER.md）と、過去の投稿実績（data/x_metrics.csv）をまとめました。
-> お手すきの際にClaude Codeで CURRENT_ANALYSIS_REQUEST.md を実行していただき、分析レポート（CURRENT_ANALYSIS.md）を出力していただけますと幸いです！
