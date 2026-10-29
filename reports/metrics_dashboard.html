@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veronica Growth Project - スライド発表用 数値推移ダッシュボード</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --accent-pink: #ff5e7e;
+      --accent-purple: #a855f7;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-gold: #fbbf24;
+      --font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      padding: 2rem 1.5rem 4rem;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ヘッダー */
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 94, 126, 0.15);
+      border: 1px solid rgba(255, 94, 126, 0.4);
+      color: var(--accent-pink);
+      padding: 0.35rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 30%, #ff5e7e 70%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--text-sub);
+      font-size: 1.05rem;
+    }
+
+    /* KPIハイライトカード */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--card-accent, var(--accent-pink));
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+    }
+
+    .kpi-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .kpi-unit {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .kpi-diff {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .diff-up {
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--accent-green);
+    }
+
+    /* グラフセクション */
+    .chart-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 960px) {
+      .chart-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+    }
+
+    .chart-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chart-desc {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-top: 0.25rem;
+    }
+
+    .chart-container {
+      position: relative;
+      flex: 1;
+      min-height: 280px;
+      width: 100%;
+    }
+
+    /* スライド用プレゼン用ハイライト枠 */
+    .slide-takeaway {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+
+    .slide-takeaway strong {
+      color: var(--accent-gold);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-sub);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <header>
+      <div class="badge">🐻 ヴェロくまプレゼンツ / Presentation Dashboard</div>
+      <h1>Veronica Growth Project 数値推移ダッシュボード</h1>
+      <p class="subtitle">授業発表（第14回）スライド直結！これまでの全記録・施策効果の視覚化データ</p>
+    </header>
+
+    <!-- KPIハイライトカード -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--card-accent: var(--accent-pink);">
+        <div class="kpi-label">X フォロワー数（現在）</div>
+        <div class="kpi-value">558<span class="kpi-unit">人</span></div>
+        <div class="kpi-diff diff-up">▲ 開始から +44人 (+8.6%)</div>
+      </div>
+      <div class="kpi-card" style="--card-accent: var(--accent-blue);">
+        <div class="kpi-label">LIPS フォロワー数（現在）</div>
+        <div class="kpi-value">426<span class="kpi-unit">人</span></div>
+        <div class="kpi-diff diff-up">▲ 開始から +14人 (+3.4%)</div>
+      </div>
+      <div class="kpi-card" style="--card-accent: var(--accent-gold);">
+        <div class="kpi-label">フェリアモ時間差伸び率</div>
+        <div class="kpi-value">3.15<span class="kpi-unit">倍</span></div>
+        <div class="kpi-diff diff-up">🚀 340 ➔ 1,070回 (公式いいね効果)</div>
+      </div>
+      <div class="kpi-card" style="--card-accent: var(--accent-purple);">
+        <div class="kpi-label">X 最高表示回数</div>
+        <div class="kpi-value">15,286<span class="kpi-unit">回</span></div>
+        <div class="kpi-diff diff-up">🌟 証明写真メイク (通常自費)</div>
+      </div>
+    </div>
+
+    <!-- グラフグリッド -->
+    <div class="chart-section">
+      <!-- グラフ1: フォロワー推移 (全幅) -->
+      <div class="chart-card full-width">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">📈 1. フォロワー数推移と目標1,000人へのペース (W0〜W5)</div>
+            <div class="chart-desc">固定ポスト改善（W3）と公式リアクション（W5）で大きく跳ねた推移を実証</div>
+          </div>
+        </div>
+        <div class="chart-container" style="min-height: 320px;">
+          <canvas id="followerChart"></canvas>
+        </div>
+        <div class="slide-takeaway">
+          🎯 <strong>スライドでの語りポイント:</strong>
+          「ただ投稿するだけではフォロワーは増えませんが、<strong>固定ポスト（美容履歴書）の整備で+31人急増</strong>、さらに<strong>公式いいねの獲得で+12人増</strong>と、プロフィールの受け皿と権威性が伸びの最大のドライバーであることを実証しました。」
+        </div>
+      </div>
+
+      <!-- グラフ2: 時間差伸び（ロングテール） -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">⏱️ 2. 初動から時間差でどう伸びたか（ロングテール）</div>
+            <div class="chart-desc">フェリアモ（カラコン）の翌日・3日後・8日後追跡</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="longtailChart"></canvas>
+        </div>
+        <div class="slide-takeaway">
+          🎯 <strong>スライドでの語りポイント:</strong>
+          「投稿翌日時点は340回でしたが、<strong>ブランド公式のいいね獲得を起点に8日後には1,070回（3.15倍）まで爆伸び</strong>。Xは後から検索やアルゴリズムで伸び続ける『資産型投稿』になることを数値で証明しました。」
+        </div>
+      </div>
+
+      <!-- グラフ3: PR vs 通常 比較 -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">⚖️ 3. PR投稿 vs 通常（自費）投稿の比較</div>
+            <div class="chart-desc">表示回数・いいね率・ブックマークの中央値比較</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="prCompareChart"></canvas>
+        </div>
+        <div class="slide-takeaway">
+          🎯 <strong>スライドでの語りポイント:</strong>
+          「<strong>表示回数と保存（ブックマーク）は通常投稿（自費購入・本音）が圧倒的</strong>。一方でPR投稿は『いいね率』が高く、両者を組み合わせるハイブリッド運用が最適な戦略です。」
+        </div>
+      </div>
+
+      <!-- グラフ4: X vs LIPS 同一投稿比較 -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">👯‍♀️ 4. X vs LIPS 同一投稿5件のいいね比較</div>
+            <div class="chart-desc">同じコスメ・同じ時期の投稿に対するプラットフォーム反応の違い</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="platformCompareChart"></canvas>
+        </div>
+        <div class="slide-takeaway">
+          🎯 <strong>スライドでの語りポイント:</strong>
+          「<strong>LIPSはどんな投稿でも49〜57いいねとベースラインが非常に高く安定</strong>。Xは厳選される（10名前後）反面、拡散力がある。媒体ごとの住み分けが必須です。」
+        </div>
+      </div>
+
+      <!-- グラフ5: X表示回数シェア（トップ層） -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">🥧 5. X過去全投稿の表示回数シェア</div>
+            <div class="chart-desc">どういった投稿が万バズ・高インプレッションを生むか</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="sharePieChart"></canvas>
+        </div>
+        <div class="slide-takeaway">
+          🎯 <strong>スライドでの語りポイント:</strong>
+          「1万インプレッション超えの2強は『証明写真メイク（1.5万）』と『使い切りシャンプー（1.4万）』。<strong>具体的シチュエーション×プチプラ×リアルな本音</strong>が最大の拡散キーワードです。」
+        </div>
+      </div>
+    </div>
+
+    <!-- フッター -->
+    <footer>
+      担当AI: ヴェロくま 🐻 | 使用モデル: Gemini 3.8 Flash | 最終集計: 2026-10-19 | Veronica Growth Project
+    </footer>
+  </div>
+
+  <script>
+    // グラフ共通カラー設定
+    const colors = {
+      pink: '#ff5e7e',
+      pinkAlpha: 'rgba(255, 94, 126, 0.25)',
+      blue: '#38bdf8',
+      blueAlpha: 'rgba(56, 189, 248, 0.25)',
+      purple: '#a855f7',
+      purpleAlpha: 'rgba(168, 85, 247, 0.25)',
+      gold: '#fbbf24',
+      goldAlpha: 'rgba(251, 191, 36, 0.25)',
+      green: '#34d399',
+      greenAlpha: 'rgba(52, 211, 153, 0.25)',
+      grid: 'rgba(255, 255, 255, 0.08)',
+      text: '#94a3b8'
+    };
+
+    Chart.defaults.color = colors.text;
+    Chart.defaults.font.family = "'Outfit', 'Noto Sans JP', sans-serif";
+
+    // 1. フォロワー推移グラフ
+    new Chart(document.getElementById('followerChart'), {
+      type: 'line',
+      data: {
+        labels: ['W0 (9/14)', 'W2 (9/28)', 'W3 (10/05)\n固定ポスト改善', 'W4 (10/12)', 'W5 (10/19)\n公式いいね効果'],
+        datasets: [
+          {
+            label: 'X フォロワー数',
+            data: [514, 514, 545, 546, 558],
+            borderColor: colors.pink,
+            backgroundColor: colors.pinkAlpha,
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: colors.pink,
+            pointRadius: 6,
+            pointHoverRadius: 8
+          },
+          {
+            label: 'LIPS フォロワー数',
+            data: [412, 412, 420, 425, 426],
+            borderColor: colors.blue,
+            backgroundColor: colors.blueAlpha,
+            borderWidth: 3,
+            fill: true,
+            tension: 0.3,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: colors.blue,
+            pointRadius: 6,
+            pointHoverRadius: 8
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { boxWidth: 16, font: { weight: 600 } } },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            titleFont: { size: 14, weight: 'bold' },
+            padding: 12,
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1
+          }
+        },
+        scales: {
+          x: { grid: { color: colors.grid } },
+          y: { 
+            min: 380, 
+            max: 580,
+            grid: { color: colors.grid },
+            ticks: { callback: v => v + '人' }
+          }
+        }
+      }
+    });
+
+    // 2. 時間差伸びグラフ（フェリアモ）
+    new Chart(document.getElementById('longtailChart'), {
+      type: 'bar',
+      data: {
+        labels: ['初動 (翌日 10/12)', '3日後 (公式いいね 10/14)', '8日後 (現在 10/19)'],
+        datasets: [
+          {
+            label: 'X 表示回数 (回)',
+            data: [340, 586, 1070],
+            backgroundColor: [colors.blue, colors.purple, colors.pink],
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: 'rgba(255,255,255,0.2)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              afterLabel: (ctx) => ctx.dataIndex === 2 ? '初動比 3.15倍に成長！' : ''
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: { grid: { color: colors.grid }, ticks: { callback: v => v + '回' } }
+        }
+      }
+    });
+
+    // 3. PR vs 通常 比較
+    new Chart(document.getElementById('prCompareChart'), {
+      type: 'bar',
+      data: {
+        labels: ['表示回数 (中央値/百回)', 'いいね数 (中央値)', 'いいね率 (中央値 x10%)', '累計保存数 (件)'],
+        datasets: [
+          {
+            label: '通常投稿（自費・本音）',
+            data: [19.8, 41, 19.3, 23],
+            backgroundColor: colors.pink,
+            borderRadius: 6
+          },
+          {
+            label: 'PR投稿（提供）',
+            data: [12.4, 48, 38.4, 2],
+            backgroundColor: colors.blue,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { boxWidth: 14 } }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: { grid: { color: colors.grid } }
+        }
+      }
+    });
+
+    // 4. X vs LIPS 同一投稿比較
+    new Chart(document.getElementById('platformCompareChart'), {
+      type: 'bar',
+      data: {
+        labels: ['ululis黒', 'プルント', 'アノブ', 'オルビス', 'フェリアモ'],
+        datasets: [
+          {
+            label: 'LIPS いいね数',
+            data: [50, 53, 56, 57, 49],
+            backgroundColor: colors.blue,
+            borderRadius: 6
+          },
+          {
+            label: 'X いいね数',
+            data: [12, 14, 9, 11, 14],
+            backgroundColor: colors.pink,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { boxWidth: 14 } }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: { grid: { color: colors.grid }, ticks: { callback: v => v + '件' } }
+        }
+      }
+    });
+
+    // 5. X表示回数シェア
+    new Chart(document.getElementById('sharePieChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['証明写真メイク (1.5万)', 'meltシャンプー (1.4万)', 'オルビスヘアミルク (6.1千)', 'アスタリフト (5.4千)', 'その他21件合計 (3.5万)'],
+        datasets: [
+          {
+            data: [15286, 14314, 6183, 5414, 35537],
+            backgroundColor: [colors.pink, colors.purple, colors.gold, colors.green, 'rgba(148, 163, 184, 0.3)'],
+            borderWidth: 2,
+            borderColor: '#1e293b'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
