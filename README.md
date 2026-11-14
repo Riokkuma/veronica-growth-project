@@ -28,6 +28,8 @@ veronica-growth-project/
 ├── CURRENT_ANALYSIS_REQUEST.md   # 現状分析の依頼指示書（完了・受入済）
 ├── CURRENT_ANALYSIS.md           # 現状分析レポート（過去投稿23件の分析・成長仮説）
 ├── LIPS_ANALYSIS_REQUEST.md      # LIPSアカウント現状分析の依頼指示書
+├── SEMINAR_NOTE.md               # ティアラボ1DAYセミナー受講ノート（投稿転用ガイド・3型テンプレ）
+├── GIVEAWAY_LOG.md               # 当選品・提供品 管理＆検証ログ（PRコスメ管理シート）
 ├── WEEKLY_BEAUTY_RESEARCH.md     # 週次美容トレンド調査 依頼仕様書
 ├── KPI_TRACKING.md               # KPI・投稿実績トラッキング（X/LIPS数値・ヒット事例分析）
 ├── DECISIONS.md                  # PM意思決定ログ（意思決定履歴の記録）
