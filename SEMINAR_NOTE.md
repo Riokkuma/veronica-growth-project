@@ -191,3 +191,4 @@ flowchart TD
 *Veronica転用ノート — ティアラボ1DAY講義（2026-11-13）の内容と、Veronica全投稿分析の数字をもとに作成。*  
 *X: [@Veronica_kuma](https://x.com/Veronica_kuma) / LIPS: [@veronica_kuma](https://lipscosme.com/users/n/@veronica_kuma)*  
 *担当AI: ヴェロくま / 作成日: 2026-11-14*
+
